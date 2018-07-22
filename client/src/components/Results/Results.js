@@ -1,19 +1,38 @@
-import React from 'react';
+import React from "react";
 
-const Result = () => (
-  <div class="row">
-    <div class="col-sm-12">
-      <br />
-      <div class="card">
-        <div class="card-header">
-          <strong>
-            <i class="fa fa-table" /> Articles Search Results
-          </strong>
+const Result = ({ articles }) => {
+  console.log(articles);
+  let artilceList = articles.map((article, i) => (
+    <li
+      key={article._id}
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <p className="lead">
+        <a href={article.web_url} target="_blank">
+          {article.headline.main}
+        </a>
+      </p>
+      <button className="btn-primary">Save</button>
+    </li>
+  ));
+
+  return (
+    <div className="row">
+      <div className="col-sm-12">
+        <br />
+        <div className="card">
+          <div className="card-header">
+            <strong>
+              <i className="fa fa-table" /> Articles Search Results
+            </strong>
+          </div>
+          <div className="card-body" id="article-section">
+            <ul className="list-group">{artilceList}</ul>
+          </div>
         </div>
-        <div class="card-body" id="article-section" />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Result;

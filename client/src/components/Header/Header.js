@@ -1,10 +1,10 @@
 import React from 'react';
 import "./Header.css"
 const Header = () => 
-  <div class="jumbotron header">
-      <h1 class="text-center">
+  <div className="jumbotron header">
+      <h1 className="text-center">
         <strong>
-          <i class="fa fa-newspaper-o"></i> New York Times Search</strong>
+          <i className="fa fa-newspaper-o"></i> New York Times Search</strong>
       </h1>
     </div>
 
