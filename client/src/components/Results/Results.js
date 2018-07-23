@@ -1,8 +1,7 @@
 import React from "react";
 
-const Result = ({ articles }) => {
-  console.log(articles);
-  let artilceList = articles.map((article, i) => (
+const Result = ({ articles, onSaveArticle }) => {
+  let artilceList = articles.map(article => (
     <li
       key={article._id}
       className="list-group-item d-flex justify-content-between align-items-center"
@@ -12,7 +11,9 @@ const Result = ({ articles }) => {
           {article.headline.main}
         </a>
       </p>
-      <button className="btn-primary">Save</button>
+      <button className="btn-primary" onClick={() => onSaveArticle(article)}>
+        Save
+      </button>
     </li>
   ));
 

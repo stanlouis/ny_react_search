@@ -7,17 +7,36 @@ class ArticlesSearchForm extends Component {
     super(props);
     this.state = {
       articles: [],
-      topic: ""
+      savedArticles: [],
+      topic: "",
+      startYear: "20180101",
+      endYear: "20180101"
     };
   }
+
+  loadSavedArticles = () => {
+    API.getSavedArticles().then(res =>
+      this.setState({ savedArticles: res.data })
+    );
+  };
 
   onSearchChange = e => {
     this.setState({ topic: e.target.value });
   };
 
+  onStartYear = e => {
+    this.setState({ startYear: e.target.value });
+    console.log(e.target.value);
+  };
+
+  onEndYear = e => {
+    this.setState({ endYear: e.target.value });
+    console.log(e.target.value);
+  };
+
   onFormSubmit = e => {
     e.preventDefault();
-    API.getArticles(this.state.topic)
+    API.getArticles(this.state.topic, this.state.startYear, this.state.endYear)
       .then(res => {
         const data = res.data.response.docs;
         const articlesLimit = [];
@@ -28,6 +47,17 @@ class ArticlesSearchForm extends Component {
 
         this.setState({ articles: articlesLimit });
       })
+      .catch(err => console.log(err));
+  };
+
+  onSaveArticle = article => {
+    console.log(article);
+    API.saveArticle({
+      article: article.headline.main,
+      url: article.web_url,
+      date: article.pub_date
+    })
+      .then(res => this.loadSavedArticles())
       .catch(err => console.log(err));
   };
 
@@ -58,16 +88,43 @@ class ArticlesSearchForm extends Component {
 
                   <div className="form-group">
                     <label htmlFor="start-year">Start Year (Optional):</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="start-year"
-                    />
+                    <select
+                      value={this.state.startYear}
+                      onChange={this.onStartYear}
+                    >
+                      <option value="20080101">2008</option>
+                      <option value="20090101">2009</option>
+                      <option value="20100101">2010</option>
+                      <option value="20110101">2011</option>
+                      <option value="20120101">2012</option>
+                      <option value="20130101">2013</option>
+                      <option value="20140101">2014</option>
+                      <option value="20150101">2015</option>
+                      <option value="20160101">2016</option>
+                      <option value="20170101">2017</option>
+                      <option value="20180101">2018</option>
+                    </select>
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="end-year">End Year (Optional):</label>
-                    <input type="text" className="form-control" id="end-year" />
+                    <select
+                      name="EndYear"
+                      value={this.state.endYear}
+                      onChange={this.onEndYear}
+                    >
+                      <option value="20180101">2018</option>
+                      <option value="20170101">2017</option>
+                      <option value="20160101">2016</option>
+                      <option value="20150101">2015</option>
+                      <option value="20140101">2014</option>
+                      <option value="20130101">2013</option>
+                      <option value="20120101">2012</option>
+                      <option value="20110101">2011</option>
+                      <option value="20100101">2010</option>
+                      <option value="20090101">2009</option>
+                      <option value="20080101">2008</option>
+                    </select>
                   </div>
 
                   <button
@@ -82,7 +139,10 @@ class ArticlesSearchForm extends Component {
           </div>
         </div>
         {/*Results components*/}
-        <Results articles={this.state.articles} />
+        <Results
+          articles={this.state.articles}
+          onSaveArticle={this.onSaveArticle}
+        />
       </div>
     );
   }

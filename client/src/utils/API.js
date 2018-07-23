@@ -6,5 +6,14 @@ const BASEURL =
   key +
   "&q=";
 export default {
-  getArticles: query => axios.get(BASEURL + query)
+  getArticles: (query, startYear, endYear) => {
+    const queryUrl =
+      BASEURL + query + "&begin_date" + startYear + "&end_date" + endYear;
+    return axios.get(queryUrl);
+  },
+  getSavedArticles: () => {
+    return axios.get("/api/articles");
+  },
+  saveArticle: articleDataToSave =>
+    axios.post("/api/articles", articleDataToSave)
 };
