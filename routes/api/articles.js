@@ -8,6 +8,6 @@ router
   .post(articlesController.create);
 
 // Matches with "/api/articles/:id"
-// router.delete(articlesController.remove);
+router.route("/:id").delete(articlesController.delete);
 
 module.exports = router;

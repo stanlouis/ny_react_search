@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import Results from "../Results/Results";
+import SavedArticles from "../SavedArticles/SavedArticles";
 
 class ArticlesSearchForm extends Component {
   constructor(props) {
@@ -60,6 +61,23 @@ class ArticlesSearchForm extends Component {
       .then(res => this.loadSavedArticles())
       .catch(err => console.log(err));
   };
+
+  onDeleteSavedArticle = id => {
+    console.log(id);
+    API.deleteArticle(id)
+      .then(res => this.loadSavedArticles())
+      .catch(err => console.log(err));
+  };
+
+  componentDidMount() {
+    //axios request to database
+    API.getSavedArticles().then(response => {
+      console.log(response);
+      this.setState({
+        savedArticles: response.data
+      });
+    });
+  }
 
   render() {
     return (
@@ -142,6 +160,11 @@ class ArticlesSearchForm extends Component {
         <Results
           articles={this.state.articles}
           onSaveArticle={this.onSaveArticle}
+        />
+        {/*SavedArticles components*/}
+        <SavedArticles
+          savedArticles={this.state.savedArticles}
+          onDeleteSavedArticle={this.onDeleteSavedArticle}
         />
       </div>
     );
