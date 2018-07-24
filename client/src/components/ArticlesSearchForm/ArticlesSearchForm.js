@@ -17,7 +17,7 @@ class ArticlesSearchForm extends Component {
 
   loadSavedArticles = () => {
     API.getSavedArticles().then(res =>
-      this.setState({ savedArticles: res.data })
+      this.setState({ savedArticles: Array.from(res.data) })
     );
   };
 
