@@ -70,13 +70,7 @@ class ArticlesSearchForm extends Component {
   };
 
   componentDidMount() {
-    //axios request to database
-    API.getSavedArticles().then(response => {
-      console.log(response);
-      this.setState({
-        savedArticles: response.data
-      });
-    });
+    this.loadSavedArticles();
   }
 
   render() {
